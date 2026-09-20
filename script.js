@@ -25,7 +25,7 @@ const bookingForm = document.getElementById("bookingForm");
 const formMessage = document.getElementById("formMessage");
 
 if (bookingForm) {
-bookingForm.addEventListener("submit", (event) => {
+ bookingForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   // Get form values
@@ -45,11 +45,10 @@ bookingForm.addEventListener("submit", (event) => {
 👥 Guests: ${guests}
 📅 Date: ${date}
 
-Please contact the customer to confirm the booking.
-`;
+Please contact the customer to confirm the booking.`;
 
   // Your WhatsApp number
-  const whatsappNumber = "919694865849";
+  const whatsappNumber = "917877669686";
 
   // Create WhatsApp URL
   const whatsappURL =
@@ -58,41 +57,44 @@ Please contact the customer to confirm the booking.
   window.open(whatsappURL, "_blank");
 
   // Success message
-  if (formMessage) formMessage.textContent = "Booking details are ready on WhatsApp 🐆";
+  if(formMessage) formMessage.textContent = "Booking details are ready on WhatsApp 🐆";
 
   // Clear form
   bookingForm.reset();
 });
-} // end if (bookingForm)
 
-// MINIMUM BOOKING DATE (only on home page)
+// MINIMUM BOOKING DATE
 
 const dateInput = document.getElementById("date");
 
-if (dateInput) {
-  const today = new Date().toISOString().split("T")[0];
-  dateInput.setAttribute("min", today);
+if(dateInput) {
+const today = new Date().toISOString().split("T")[0];
+dateInput.setAttribute("min", today);
+}
 }
 
 
-// ======================================================
 // REVIEWS SYSTEM
-// MongoDB Backend — koi hardcoded review nahi hai.
-// Home page = sirf 3 reviews | reviews.html = saare reviews
-// Sirf website form se submit kiye (new) reviews dikhenge.
-// Date = Month + Year only (din / tarikh nahi)
-// ======================================================
+// MongoDB Backend
+// Home page = only 3 reviews
+// reviews.html = all reviews
+// Date = Month + Year only
+
 
 const API_URL = "http://localhost:5000/api/reviews";
 
 
+
 // ---------- Star rating ----------
+
 
 function createStars(rating) {
   let stars = "";
+
   for (let i = 1; i <= 5; i++) {
     stars += i <= rating ? "★" : "☆";
   }
+
   return stars;
 }
 
@@ -109,10 +111,12 @@ function escapeHTML(value) {
 }
 
 
-// ---------- Review card (Month Year only, no date) ----------
+// ---------- Review card ----------
+
 
 function createReviewCard(review) {
   const card = document.createElement("article");
+
   card.className = "review-card";
 
   const firstLetter =
@@ -124,22 +128,30 @@ function createReviewCard(review) {
     '<div class="review-stars">' +
     createStars(Number(review.rating)) +
     "</div>" +
+
     '<p class="review-text">"' +
     escapeHTML(review.review) +
     '"</p>' +
+
     '<div class="review-user">' +
+
     '<div class="review-avatar">' +
     escapeHTML(firstLetter) +
     "</div>" +
+
     "<div>" +
     "<strong>" +
     escapeHTML(review.name) +
     "</strong>" +
+
     "<span>" +
     escapeHTML(review.location) +
     "</span>" +
+
     "</div>" +
+
     "</div>" +
+
     '<div class="review-date">' +
     escapeHTML(review.month) +
     " " +
@@ -150,10 +162,8 @@ function createReviewCard(review) {
 }
 
 
-// ======================================================
 // GET REVIEWS FROM MONGODB
-// Sirf website se aaye (new) reviews — purane nahi
-// ======================================================
+
 
 async function getReviews() {
   try {
@@ -166,12 +176,7 @@ async function getReviews() {
     const data = await response.json();
 
     if (data.success && Array.isArray(data.reviews)) {
-      // Sirf website form se submit kiye reviews dikhao.
-      // DB me pehle se pade purane reviews (bina source tag)
-      // yahin filter ho jayenge.
-      return data.reviews.filter(
-        (review) => review.source === "website"
-      );
+      return data.reviews;
     }
 
     return [];
@@ -182,12 +187,13 @@ async function getReviews() {
 }
 
 
-// ======================================================
-// HOME PAGE — Only first 3 reviews
-// ======================================================
+// HOME PAGE
+// Only first 3 reviews
+
 
 async function renderHomeReviews() {
   const homeReviews = document.getElementById("homeReviews");
+
   if (!homeReviews) return;
 
   homeReviews.innerHTML = "";
@@ -206,12 +212,13 @@ async function renderHomeReviews() {
 }
 
 
-// ======================================================
-// REVIEWS PAGE — Show all reviews
-// ======================================================
+// REVIEWS PAGE
+// Show all reviews
+
 
 async function renderAllReviews() {
   const container = document.getElementById("allReviews");
+
   if (!container) return;
 
   container.innerHTML = "";
@@ -230,93 +237,153 @@ async function renderAllReviews() {
 }
 
 
-// ======================================================
-// ADD NEW REVIEW — Save to MongoDB, turant list me dikhao
-// ======================================================
+// ADD NEW REVIEW
+// Save directly to MongoDB
+
 
 const reviewForm = document.getElementById("reviewForm");
+
 const reviewSuccess = document.getElementById("reviewSuccess");
 
+
 if (reviewForm) {
+
   reviewForm.addEventListener("submit", async (event) => {
+
     event.preventDefault();
 
-    const name = document.getElementById("reviewName").value.trim();
-    const location = document.getElementById("reviewLocation").value.trim();
-    const rating = Number(document.getElementById("reviewRating").value);
-    const reviewText = document.getElementById("reviewText").value.trim();
+
+    const name =
+      document.getElementById("reviewName").value.trim();
+
+    const location =
+      document.getElementById("reviewLocation").value.trim();
+
+    const rating =
+      Number(document.getElementById("reviewRating").value);
+
+    const reviewText =
+      document.getElementById("reviewText").value.trim();
+
 
     // ---------- Validation ----------
 
+
     if (!name || !location || !rating || !reviewText) {
+
       if (reviewSuccess) {
-        reviewSuccess.textContent =
-          "Please fill all fields and select a rating. ⭐";
+        reviewSuccess.textContent = "Please fill all fields and select a rating. ⭐";
       }
+
       return;
     }
 
-    // ---------- Current Month + Year only (no day/date) ----------
+
+    // ---------- Current Month + Year ----------
+
 
     const currentDate = new Date();
-    const month = currentDate.toLocaleString("en-US", { month: "long" });
+
+    const month = currentDate.toLocaleString("en-US", { 
+      month: "long"
+    });
+
     const year = currentDate.getFullYear();
+
 
     // ---------- Review Object ----------
 
+
     const newReview = {
+
       name: name,
+
       location: location,
+
       rating: rating,
+
       review: reviewText,
+
       month: month,
-      year: year,
-      source: "website", // website form se aaya naya review
+
+      year: year
+
     };
 
+
     try {
+
+
       // ---------- Send Review to Backend ----------
 
+
       const response = await fetch(API_URL, {
+
         method: "POST",
+
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(newReview),
+
+        body: JSON.stringify(newReview)
       });
+
 
       const data = await response.json();
 
+
       if (!response.ok || !data.success) {
-        throw new Error(data.message || "Failed to add review");
+        throw new Error(
+          data.message || "Failed to add review"
+        );
       }
 
+
       // ---------- Success ----------
+
 
       if (reviewSuccess) {
         reviewSuccess.textContent =
           "Thank you! Your review has been added successfully. 🐆";
-      }
+        }
+
+
+      // Reset form
+
 
       reviewForm.reset();
 
-      // Lists turant refresh — naya review abhi dikhega
+
+      // Refresh reviews immediately
+
       await renderHomeReviews();
+
       await renderAllReviews();
+
+
     } catch (error) {
-      console.error("Unable to submit review:", error);
+
+      console.error(
+        "Unable to submit review:",
+        error
+      );
+
+
       if (reviewSuccess) {
+
         reviewSuccess.textContent =
           "Unable to submit review. Please try again.";
+
       }
+
     }
+
   });
+
 }
 
-
-// ======================================================
 // INITIAL LOAD
-// ======================================================
 
 renderHomeReviews();
+
 renderAllReviews();
