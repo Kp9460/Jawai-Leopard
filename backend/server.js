@@ -13,9 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 
-// ======================================================
 // MONGODB CONNECTION
-// ======================================================
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -27,9 +25,7 @@ mongoose
   });
 
 
-// ======================================================
 // REVIEW SCHEMA
-// ======================================================
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -82,25 +78,19 @@ const reviewSchema = new mongoose.Schema(
 );
 
 
-// ======================================================
 // REVIEW MODEL
-// ======================================================
 
 const Review = mongoose.model("Review", reviewSchema);
 
 
-// ======================================================
 // TEST ROUTE
-// ======================================================
 
 app.get("/", (req, res) => {
   res.send("Jawai Safari Backend is Running");
 });
 
 
-// ======================================================
 // ADD REVIEW
-// ======================================================
 
 app.post("/api/reviews", async (req, res) => {
   try {
@@ -144,9 +134,7 @@ app.post("/api/reviews", async (req, res) => {
 });
 
 
-// ======================================================
 // GET REVIEWS
-// ======================================================
 
 app.get("/api/reviews", async (req, res) => {
   try {
@@ -211,9 +199,7 @@ app.post("/api/test-review", async (req, res) => {
   }
 });
 
-// ======================================================
 // START SERVER
-// ======================================================
 
 const PORT = process.env.PORT || 5000;
 
