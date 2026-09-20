@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Guest Reviews | Jawai Safari</title>
+
+
+  <!-- Google Fonts -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+
+  <!-- Main CSS -->
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  />
+
+</head>
+
+
+<body>
+
+
+  <!-- ================= NAVBAR ================= -->
+
+  <header class="navbar">
+
+    <a
+      href="index.html"
+      class="logo">
+
+      JAWAI<span>.</span>
+
+    </a>
+
+
+    <nav class="nav-links">
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="index.html#about">
+        About
+      </a>
+
+      <a href="index.html#safari">
+        Safari
+      </a>
+
+      <a href="index.html#gallery">
+        Gallery
+      </a>
+
+      <a href="reviews.html">
+        Reviews
+      </a>
+
+      <a href="index.html#contact">
+        Contact
+      </a>
+
+    </nav>
+
+
+    <a
+      href="index.html#booking"
+      class="nav-btn">
+
+      Book Safari
+
+    </a>
+
+
+    <button
+      class="menu-btn"
+      id="menuBtn">
+
+      ☰
+
+    </button>
+
+  </header>
+
+
+
+  <!-- ================= REVIEWS HERO ================= -->
+
+  <section class="reviews-page-hero">
+
+    <div class="reviews-page-overlay"></div>
+
+    <div class="reviews-page-content">
+
+      <div class="section-tag">
+        GUEST REVIEWS
+      </div>
+
+      <h1>
+        Stories from
+        <em>the wild.</em>
+      </h1>
+
+      <p>
+        Discover what our guests experienced during their Jawai adventure.
+      </p>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ================= ALL REVIEWS ================= -->
+
+  <section class="reviews-page section">
+
+    <div class="section-heading">
+
+      <div>
+
+        <div class="section-tag">
+          WHAT OUR GUESTS SAY
+        </div>
+
+        <h2>
+          Memories that
+          <em>stay.</em>
+        </h2>
+
+      </div>
+
+      <p>
+        Read experiences shared by guests who explored Jawai with us.
+      </p>
+
+    </div>
+
+
+    <!-- All Reviews (saare reviews yahan dikhenge) -->
+
+    <div
+      class="all-reviews-grid"
+      id="allReviews">
+    </div>
+
+  </section>
+
+
+
+  <!-- ================= WRITE REVIEW ================= -->
+
+  <section class="review-form-section section">
+
+    <div class="review-form-wrapper">
+
+      <div class="section-tag">
+        SHARE YOUR EXPERIENCE
+      </div>
+
+      <h2>
+        Tell us your
+        <em>Jawai story.</em>
+      </h2>
+
+      <p class="review-form-intro">
+        Enjoyed your safari? Share your experience with future guests.
+      </p>
+
+
+      <form
+        class="review-form"
+        id="reviewForm">
+
+
+        <div class="form-row">
+
+
+          <div class="input-group">
+
+            <label for="reviewName">
+              Your Name
+            </label>
+
+            <input
+              type="text"
+              id="reviewName"
+              placeholder="Enter your name"
+              required
+            />
+
+          </div>
+
+
+          <div class="input-group">
+
+            <label for="reviewLocation">
+              Location
+            </label>
+
+            <input
+              type="text"
+              id="reviewLocation"
+              placeholder="e.g. Delhi, India"
+              required
+            />
+
+          </div>
+
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label for="reviewRating">
+            Your Rating
+          </label>
+
+          <select
+            id="reviewRating"
+            required>
+
+            <option value="">
+              Select Rating
+            </option>
+
+            <option value="5">
+              ★★★★★ — Excellent
+            </option>
+
+            <option value="4">
+              ★★★★☆ — Very Good
+            </option>
+
+            <option value="3">
+              ★★★☆☆ — Good
+            </option>
+
+            <option value="2">
+              ★★☆☆☆ — Average
+            </option>
+
+            <option value="1">
+              ★☆☆☆☆ — Poor
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label for="reviewText">
+            Your Review
+          </label>
+
+          <textarea
+            id="reviewText"
+            rows="6"
+            placeholder="Tell us about your Jawai experience..."
+            required></textarea>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="review-submit">
+
+          Submit Review →
+
+        </button>
+
+
+        <p
+          class="review-success"
+          id="reviewSuccess">
+        </p>
+
+
+      </form>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer class="footer">
+
+    <div class="footer-top">
+
+      <a
+        href="index.html"
+        class="logo">
+
+        JAWAI<span>.</span>
+
+      </a>
+
+
+      <p>
+        Discover the wild side of Rajasthan.
+      </p>
+
+
+      <div class="footer-links">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="index.html#about">
+          About
+        </a>
+
+        <a href="index.html#safari">
+          Safari
+        </a>
+
+        <a href="index.html#gallery">
+          Gallery
+        </a>
+
+        <a href="reviews.html">
+          Reviews
+        </a>
+
+        <a href="index.html#contact">
+          Contact
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 Jawai Safari. All rights reserved.
+      </span>
+
+      <span>
+        Made for the wild 🐆
+      </span>
+
+    </div>
+
+  </footer>
+
+
+
+  <!-- JavaScript -->
+
+  <script src="script.js?v=2"></script>
+
+</body>
+
+</html>

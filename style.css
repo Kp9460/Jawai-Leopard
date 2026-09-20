@@ -70,23 +70,22 @@ h2 em {
   left: 0;
   width: 100%;
   z-index: 10;
-    
+  /* background: black;  */
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 1.5vw 5vw;
+  padding: 1vw 5vw;
 }
 
 .logo {
-  font-family: "Playfair Display", serif;
   font-size: 30px;
   font-weight: 700;
-  letter-spacing: 2px;
 }
 
-.logo span {
-  color: #c5a66a;
+.logo img{
+  height: 10vh;
+  width: 11vw;
 }
 
 .nav-links {
@@ -133,7 +132,7 @@ h2 em {
   position: relative;
   display: flex;
   align-items: center;
-  background-image: url("./images/leopard.png");
+  background-image: url("./images/Leopard.webp");
   background-size: cover;
   background-position: center;
 }
@@ -392,6 +391,27 @@ h2 em {
   font-size: 13px;
 }
 
+#card-one{
+  height: 15vw;
+  background-image: url(./images/sunrise.webp);
+  background-size: cover;
+  background-position: bottom;
+}
+
+#card-two{
+  height: 15vw;
+  background-image: url(./images/sunset.webp);
+  background-size: cover;
+  background-position: center;
+}
+
+#card-three{
+  height: 15vw;
+  background-image: url(./images/full-day.webp);
+  background-size: cover;
+  background-position: center;
+}
+
 .featured .card-number {
   color: #11120f;
 }
@@ -459,7 +479,7 @@ h2 em {
 
   background:
     linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4)),
-    url("https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1400&q=85");
+    url("./images/peace.webp");
 
   background-size: cover;
   background-position: center;
@@ -764,11 +784,21 @@ h2 em {
   font-weight: 600;
 }
 
+.contact-details #sm{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2vw;
+}
+
+#sm i{
+  font-size: 18px;
+}
+
 /* FOOTER */
 
 .footer {
   padding: 50px 7% 25px;
-
   background: #0c0d0b;
 }
 
@@ -845,6 +875,11 @@ h2 em {
     border-bottom: 1px solid #292a24;
   }
 
+  .logo img{
+  height: 10vh;
+  width: 16vw;
+  }
+
   .about-grid,
   .booking-grid {
     grid-template-columns: 1fr;
@@ -853,6 +888,18 @@ h2 em {
 
   .safari-cards {
     grid-template-columns: 1fr;
+  }
+
+  #card-one{
+    height: 60vw;
+  }
+   
+  #card-two{
+    height: 60vw;
+  }
+
+  #card-three{
+    height: 60vw;
   }
 
   .experience {
@@ -903,6 +950,11 @@ h2 em {
     padding: 22px 6%;
   }
 
+  .logo img{
+  height: 8vh;
+  width: 25vw;
+  }
+
   .hero {
     background-position: 60% center;
   }
@@ -915,13 +967,13 @@ h2 em {
     font-size: 65px;
     letter-spacing: -3px;
   }
+   
+  .hero-bottom{
+    gap: 6vw;
+  }
 
   .hero-text {
     font-size: 15px;
-  }
-
-  .hero-bottom {
-    display: none;
   }
 
   .stats {
@@ -991,5 +1043,347 @@ h2 em {
     flex-direction: column;
     gap: 10px;
     text-align: center;
+  }
+}
+
+
+.reviews {
+  background: #11120f;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.reviews-grid .review-card {  
+  min-height: 350px;
+  height: 350px;
+  overflow: hidden;
+}
+
+.review-card {
+  position: relative;
+  padding: 35px;
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #181914;
+  border: 1px solid #303129;
+  transition: 0.4s;
+}
+
+.review-card:hover {
+  transform: translateY(-8px);
+  border-color: #c5a66a;
+}
+
+.review-stars {
+  color: #c5a66a;
+  font-size: 18px;
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+}
+
+.review-text {
+  color: #c8c7bf;
+  font-size: 15px;
+  line-height: 1.8;
+  flex: 1;
+  margin-bottom: 30px;
+}
+
+.review-user {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding-top: 20px;
+  border-top: 1px solid #303129;
+}
+
+.review-avatar {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #c5a66a;
+  color: #11120f;
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.review-user strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.review-user span {
+  display: block;
+  color: #77776f;
+  font-size: 12px;
+}
+
+/* Month Year only (no full date) */
+.review-date {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  color: #77776f;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.reviews-action {
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* =====================================================
+   REVIEWS PAGE (reviews.html)
+===================================================== */
+
+.reviews-page-hero {
+  min-height: 65vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(rgba(10, 11, 9, 0.78), rgba(10, 11, 9, 0.88)),
+    url("https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1800&q=85");
+  background-size: cover;
+  background-position: center;
+}
+
+.reviews-page-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.45));
+}
+
+.reviews-page-content {
+  position: relative;
+  z-index: 2;
+  width: 850px;
+  max-width: 88%;
+  margin-left: 7%;
+  padding-top: 80px;
+}
+
+.reviews-page-content h1 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(55px, 8vw, 110px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -3px;
+  margin-bottom: 25px;
+}
+
+.reviews-page-content h1 em {
+  color: #c5a66a;
+  font-style: normal;
+}
+
+.reviews-page-content p {
+  max-width: 550px;
+  color: #c8c7bf;
+  font-size: 17px;
+}
+
+.reviews-page {
+  background: #181914;
+}
+
+.all-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.all-reviews-grid .review-card {  
+  min-height: 350px;
+  height: 350px;
+  overflow: hidden;
+}
+
+.all-reviews-grid .review-text {
+  color: #c8c7bf;
+  font-size: 15px;
+  line-height: 1.8;
+  flex: 1;
+  margin-bottom: 30px;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* ---------- Review form ---------- */
+
+.review-form-section {
+  background: #11120f;
+}
+
+.review-form-wrapper {
+  max-width: 900px;
+  margin: auto;
+  padding: 60px;
+  background: #181914;
+  border: 1px solid #303129;
+}
+
+.review-form-wrapper h2 {
+  margin-bottom: 20px;
+}
+
+.review-form-intro {
+  color: #92928b;
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+.review-form {
+  width: 100%;
+}
+
+.review-form textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 150px;
+  padding: 14px 15px;
+  background: #11120f;
+  border: 1px solid #383932;
+  color: white;
+  outline: none;
+  font: inherit;
+}
+
+.review-form textarea:focus {
+  border-color: #c5a66a;
+}
+
+.review-form input,
+.review-form select {
+  width: 100%;
+}
+
+.review-submit {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  background: #c5a66a;
+  color: #11120f;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.review-submit:hover {
+  background: #e0c58a;
+  transform: translateY(-2px);
+}
+
+.review-success {
+  text-align: center;
+  margin-top: 18px;
+  color: #c5a66a;
+  font-size: 13px;
+}
+
+.no-reviews {
+  color: #999990;
+  text-align: center;
+  padding: 50px;
+  grid-column: 1 / -1;
+}
+
+/* =====================================================
+   REVIEWS RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+  .reviews-grid,
+  .all-reviews-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-card {
+    min-height: 300px;
+  }
+
+  .reviews-page-hero {
+    min-height: 60vh;
+  }
+
+  .review-form-wrapper {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .reviews-page-content {
+    margin-left: 6%;
+  }
+
+  .reviews-page-content h1 {
+    font-size: 58px;
+    letter-spacing: -2px;
+  }
+
+  .reviews-page-content p {
+    font-size: 15px;
+  }
+
+  .review-card {
+    padding: 25px;
+    min-height: 310px;
+  }
+
+  .review-date {
+    top: 25px;
+    right: 25px;
+    font-size: 10px;
+  }
+
+  .review-stars {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .review-text {
+  color: #c8c7bf;
+  font-size: 15px;
+  line-height: 1.8;
+  flex: 1;
+  margin-bottom: 30px;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+  .review-form-wrapper {
+    padding: 28px 22px;
+  }
+
+  .review-form-wrapper h2 {
+    font-size: 42px;
   }
 }

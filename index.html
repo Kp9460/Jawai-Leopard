@@ -10,12 +10,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet"/>
 
-    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet"/>
+    
     <link rel="stylesheet" href="style.css" />
   </head>
 
@@ -23,13 +21,14 @@
     <!-- ================= NAVBAR ================= -->
 
     <header class="navbar">
-      <a href="#" class="logo"> JAWAI<span>.</span> </a>
+      <a href="#" class="logo"><img src="./images/logo.png" alt=""> </a>
 
       <nav class="nav-links">
         <a href="#home">Home</a>
         <a href="#about">About</a>
         <a href="#safari">Safari</a>
         <a href="#gallery">Gallery</a>
+        <a href="#reviews">Reviews</a>
         <a href="#contact">Contact</a>
       </nav>
 
@@ -162,10 +161,10 @@
           <!-- Card 1 -->
 
           <article class="safari-card">
-            <div class="card-number">01</div>
+            <div class="card-number" id="card-one">01</div>
 
             <div class="card-content">
-              <h3>Leopard Safari</h3>
+              <h3>Sunrise Safari</h3>
 
               <p>
                 Explore the granite landscape and search for Jawai's famous
@@ -174,7 +173,7 @@
 
               <div class="card-bottom">
                 <span>2–3 Hours</span>
-                <strong>₹3,500</strong>
+                <strong>₹4,000</strong>
               </div>
             </div>
           </article>
@@ -182,7 +181,7 @@
           <!-- Card 2 -->
 
           <article class="safari-card featured">
-            <div class="card-number">02</div>
+            <div class="card-number" id="card-two"></div>
 
             <div class="card-content">
               <h3>Sunset Safari</h3>
@@ -194,7 +193,7 @@
 
               <div class="card-bottom">
                 <span>2–3 Hours</span>
-                <strong>₹3,000</strong>
+                <strong>₹4,000</strong>
               </div>
             </div>
           </article>
@@ -202,7 +201,7 @@
           <!-- Card 3 -->
 
           <article class="safari-card">
-            <div class="card-number">03</div>
+            <div class="card-number" id="card-three"></div>
 
             <div class="card-content">
               <h3>Full Day Adventure</h3>
@@ -214,7 +213,7 @@
 
               <div class="card-bottom">
                 <span>Full Day</span>
-                <strong>₹8,500</strong>
+                <strong>₹11,500</strong>
               </div>
             </div>
           </article>
@@ -285,33 +284,58 @@
         <div class="gallery-grid">
           <div class="gallery-item gallery-large">
             <img
-              src="https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1200&q=80"
+              src="./images/leopard1.webp"
               alt="Leopard"
             />
           </div>
 
           <div class="gallery-item">
             <img
-              src="https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80"
+              src="./images/leopard2.webp"
               alt="Wildlife"
             />
           </div>
 
           <div class="gallery-item">
             <img
-              src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=800&q=80"
+              src="./images/Grassland.webp"
               alt="Nature"
             />
           </div>
 
           <div class="gallery-item">
             <img
-              src="https://images.unsplash.com/photo-1535338454770-8be927b5a00b?auto=format&fit=crop&w=800&q=80"
-              alt="Landscape"
+              src="./images/camel.webp"
+              alt="camel"
             />
           </div>
+
+          <div class="gallery-item">
+            <img
+              src="./images/jawai-dam.webp"
+              alt="jawai-dam"
+            />
+          </div>
+
         </div>
       </section>
+      
+       <!-- review section -->
+
+
+      <section class="reviews section" id="reviews">
+  <div class="section-heading">
+    <div>
+      <div class="section-tag">GUEST REVIEWS</div>
+      <h2>Stories from <em>our guests.</em></h2>
+    </div>
+    <p>Real experiences from guests who explored the wild side of Jawai with us.</p>
+  </div>
+  <div class="reviews-grid" id="homeReviews"></div>
+  <div class="reviews-action">
+    <a href="reviews.html" class="text-link">Read All Reviews →</a>
+  </div>
+</section>
 
       <!-- ================= WHY JAWAI ================= -->
 
@@ -474,12 +498,20 @@
           <div class="contact-details">
             <div>
               <span>CALL US</span>
-              <a href="tel:+919876543210"> +91 98765 43210 </a>
+              <a href="tel:+917877669686"> +91 7877669686 </a>
             </div>
 
             <div>
               <span>EMAIL</span>
-              <a href="mailto:hello@jawaisafari.com"> hello@jawaisafari.com </a>
+              <a href="mailto:captains.of.jawai@gmail.com"> captains.of.jawai@gmail.com </a>
+            </div>
+
+            <div>
+              <span>SOCIAL MEDIA</span>
+              <div id="sm">
+                <a href="https://wa.me/917877669686"> <i class="ri-whatsapp-line"></i> </a>
+                <a href="https://www.instagram.com/yash_jaitmalot/"> <i class="ri-instagram-line"></i> </a>
+              </div>
             </div>
           </div>
         </div>
@@ -499,6 +531,7 @@
           <a href="#about">About</a>
           <a href="#safari">Safari</a>
           <a href="#gallery">Gallery</a>
+          <a href="#reviews">Reviews</a>
           <a href="#contact">Contact</a>
         </div>
       </div>
@@ -511,6 +544,6 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
   </body>
 </html>
