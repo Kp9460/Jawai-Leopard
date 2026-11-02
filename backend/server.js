@@ -1,28 +1,56 @@
 const dns = require("dns");
-
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config();
+const path = require("path");
+
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const app = express();
+const projectRoot = path.resolve(__dirname, "..");
+const allowedOrigins = (process.env.CORS_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
-app.use(cors());
-app.use(express.json());
+app.use(
+  cors({
+    origin(origin, callback) {
+      const isLocalOrigin =
+        origin === "null" || /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin || "");
+      const isAllowed =
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        (process.env.NODE_ENV !== "production" && isLocalOrigin);
+
+      callback(null, isAllowed);
+    },
+  })
+);
+app.use(express.json({ limit: "20kb" }));
+
+// Serve only the public website files; don't expose the project or backend folders.
+app.use(
+  "/images",
+  express.static(path.join(projectRoot, "images"), {
+    dotfiles: "deny",
+    maxAge: "1d",
+  })
+);
 
 
 // MONGODB CONNECTION
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB Connected Successfully");
-  })
-  .catch((error) => {
-    console.log("MongoDB Connection Error:", error);
-  });
+if (process.env.MONGO_URI) {
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => console.log("MongoDB Connected Successfully"))
+    .catch((error) => console.error("MongoDB connection failed:", error.message));
+} else {
+  console.error("MONGO_URI is missing. The website will run, but reviews are unavailable.");
+}
 
 
 // REVIEW SCHEMA
@@ -33,12 +61,14 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      maxlength: 80,
     },
 
     location: {
       type: String,
       required: true,
       trim: true,
+      maxlength: 80,
     },
 
     rating: {
@@ -46,12 +76,15 @@ const reviewSchema = new mongoose.Schema(
       required: true,
       min: 1,
       max: 5,
+      validate: Number.isInteger,
     },
 
     review: {
       type: String,
       required: true,
       trim: true,
+      minlength: 10,
+      maxlength: 1000,
     },
 
     month: {
@@ -83,25 +116,89 @@ const reviewSchema = new mongoose.Schema(
 const Review = mongoose.model("Review", reviewSchema);
 
 
-// TEST ROUTE
+// WEBSITE ROUTES
 
 app.get("/", (req, res) => {
-  res.send("Jawai Safari Backend is Running");
+  res.sendFile(path.join(projectRoot, "index.html"));
 });
 
+app.get("/index.html", (req, res) => {
+  res.sendFile(path.join(projectRoot, "index.html"));
+});
+
+app.get("/reviews.html", (req, res) => {
+  res.sendFile(path.join(projectRoot, "reviews.html"));
+});
+
+app.get("/style.css", (req, res) => {
+  res.sendFile(path.join(projectRoot, "style.css"));
+});
+
+app.get("/reviews.css", (req, res) => {
+  res.sendFile(path.join(projectRoot, "reviews.css"));
+});
+
+app.get("/script.js", (req, res) => {
+  res.sendFile(path.join(projectRoot, "script.js"));
+});
+
+app.get("/api/health", (req, res) => {
+  const databaseConnected = mongoose.connection.readyState === 1;
+
+  res.status(databaseConnected ? 200 : 503).json({
+    success: databaseConnected,
+    databaseConnected,
+  });
+});
+
+function requireDatabase(req, res, next) {
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      success: false,
+      message: "The review service is temporarily unavailable.",
+    });
+  }
+
+  next();
+}
 
 // ADD REVIEW
 
-app.post("/api/reviews", async (req, res) => {
+app.post("/api/reviews", requireDatabase, async (req, res) => {
   try {
-    const {
-      name,
-      location,
-      rating,
-      review,
-      month,
-      year,
-    } = req.body;
+    const body = req.body || {};
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    const location = typeof body.location === "string" ? body.location.trim() : "";
+    const review = typeof body.review === "string" ? body.review.trim() : "";
+    const rating = Number(body.rating);
+
+    if (!name || name.length > 80) {
+      return res.status(400).json({ success: false, message: "Enter a name up to 80 characters." });
+    }
+
+    if (!location || location.length > 80) {
+      return res.status(400).json({ success: false, message: "Enter a location up to 80 characters." });
+    }
+
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+      return res.status(400).json({ success: false, message: "Choose a rating from 1 to 5." });
+    }
+
+    if (review.length < 10 || review.length > 1000) {
+      return res.status(400).json({ success: false, message: "A review must be 10 to 1,000 characters." });
+    }
+
+    const now = new Date();
+    const month = new Intl.DateTimeFormat("en", {
+      month: "long",
+      timeZone: "Asia/Kolkata",
+    }).format(now);
+    const year = Number(
+      new Intl.DateTimeFormat("en", {
+        year: "numeric",
+        timeZone: "Asia/Kolkata",
+      }).format(now)
+    );
 
     const newReview = new Review({
       name,
@@ -110,7 +207,7 @@ app.post("/api/reviews", async (req, res) => {
       review,
       month,
       year,
-      source: "website", // website form se aaya naya review
+      source: "website",
     });
 
     await newReview.save();
@@ -123,12 +220,11 @@ app.post("/api/reviews", async (req, res) => {
 
   } catch (error) {
 
-    console.log("Review Save Error:", error);
+    console.error("Review save failed:", error.message);
 
     res.status(500).json({
       success: false,
-      message: "Failed to add review",
-      error: error.message,
+      message: "Failed to add review. Please try again later.",
     });
   }
 });
@@ -136,7 +232,7 @@ app.post("/api/reviews", async (req, res) => {
 
 // GET REVIEWS
 
-app.get("/api/reviews", async (req, res) => {
+app.get("/api/reviews", requireDatabase, async (req, res) => {
   try {
 
     // Sirf website se aaye (new) reviews lao.
@@ -152,49 +248,11 @@ app.get("/api/reviews", async (req, res) => {
 
   } catch (error) {
 
-    console.log("Review Fetch Error:", error);
+    console.error("Review fetch failed:", error.message);
 
     res.status(500).json({
       success: false,
-      message: "Failed to fetch reviews",
-      error: error.message,
-    });
-  }
-});
-
-
-
-
-app.post("/api/test-review", async (req, res) => {
-  console.log("TEST REVIEW RECEIVED:", req.body);
-
-  try {
-    const testReview = new Review({
-      name: "Test User",
-      location: "Jaipur, India",
-      rating: 5,
-      review: "MongoDB test review",
-      month: "September",
-      year: 2026,
-      source: "website",
-    });
-
-    await testReview.save();
-
-    console.log("TEST REVIEW SAVED:", testReview);
-
-    res.json({
-      success: true,
-      message: "Test review saved successfully",
-      review: testReview,
-    });
-
-  } catch (error) {
-    console.log("TEST REVIEW ERROR:", error);
-
-    res.status(500).json({
-      success: false,
-      error: error.message,
+      message: "Failed to load reviews. Please try again later.",
     });
   }
 });
@@ -203,8 +261,6 @@ app.post("/api/test-review", async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(
-    `Server running on http://localhost:${PORT}`
-  );
+app.listen(PORT, "127.0.0.1", () => {
+  console.log(`Server running on http://127.0.0.1:${PORT}`);
 });

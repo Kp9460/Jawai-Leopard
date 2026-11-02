@@ -9,6 +9,8 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0"
   />
+  <meta name="description" content="Read guest reviews and share your Jawai safari experience." />
+  <meta name="review-api-url" content="" />
 
   <title>Guest Reviews | Jawai Safari</title>
 
@@ -36,7 +38,11 @@
 
   <link
     rel="stylesheet"
-    href="style.css"
+    href="style.css?v=3"
+  />
+  <link
+    rel="stylesheet"
+    href="reviews.css?v=1"
   />
 
 </head>
@@ -49,16 +55,12 @@
 
   <header class="navbar">
 
-    <a
-      href="index.html"
-      class="logo">
-
-      JAWAI<span>.</span>
-
+    <a href="index.html#home" class="logo" aria-label="Jawai Safari home">
+      <img class="site-logo" src="./images/logo-full.png" alt="Jawai Leopard Adventures and Conservation" />
     </a>
 
 
-    <nav class="nav-links">
+    <nav class="nav-links" id="site-navigation">
 
       <a href="index.html">
         Home
@@ -96,13 +98,7 @@
     </a>
 
 
-    <button
-      class="menu-btn"
-      id="menuBtn">
-
-      ☰
-
-    </button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation" aria-controls="site-navigation" aria-expanded="false">☰</button>
 
   </header>
 
@@ -188,7 +184,9 @@
       </h2>
 
       <p class="review-form-intro">
-        Enjoyed your safari? Share your experience with future guests.
+        Enjoyed your safari? Share your experience with future guests. Your name,
+        location and review will be visible on this website, so only include
+        details you are comfortable sharing publicly.
       </p>
 
 
@@ -210,6 +208,8 @@
               type="text"
               id="reviewName"
               placeholder="Enter your name"
+              autocomplete="name"
+              maxlength="80"
               required
             />
 
@@ -226,6 +226,7 @@
               type="text"
               id="reviewLocation"
               placeholder="e.g. Delhi, India"
+              maxlength="80"
               required
             />
 
@@ -284,6 +285,8 @@
             id="reviewText"
             rows="6"
             placeholder="Tell us about your Jawai experience..."
+            minlength="10"
+            maxlength="1000"
             required></textarea>
 
         </div>
@@ -300,7 +303,9 @@
 
         <p
           class="review-success"
-          id="reviewSuccess">
+        id="reviewSuccess"
+        role="status"
+        aria-live="polite">
         </p>
 
 
@@ -318,12 +323,8 @@
 
     <div class="footer-top">
 
-      <a
-        href="index.html"
-        class="logo">
-
-        JAWAI<span>.</span>
-
+      <a href="index.html#home" class="logo" aria-label="Jawai Safari home">
+        <img class="site-logo" src="./images/logo-full.png" alt="Jawai Leopard Adventures and Conservation" />
       </a>
 
 
@@ -381,7 +382,7 @@
 
   <!-- JavaScript -->
 
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=3"></script>
 
 </body>
 
