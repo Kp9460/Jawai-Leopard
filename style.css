@@ -182,17 +182,17 @@ h2 em {
 .hero h1 {
   font-family: "Playfair Display", serif;
 
-  font-size: clamp(65px, 10vw, 145px);
+  font-size: clamp(38px, 7.5vw, 98px);
   font-weight: 500;
 
-  letter-spacing: -5px;
-  line-height: 10vw;
+  letter-spacing: -0.055em;
+  line-height: 1;
 }
 
 .hero h1 span {
   display: block;
   color: #c5a66a;
-  margin-top: -2vw;
+  margin-top: 0;
 }
 
 .hero-text {
@@ -928,11 +928,11 @@ h2 em {
   }
 
   .hero h1 {
-  line-height: 12vw;
+  line-height: 1;
 }
 
 .hero h1 span {
-  margin-top: -4vw;
+  margin-top: 0;
 }
 
 }
@@ -986,11 +986,11 @@ h2 em {
 }
 
    .hero h1 {
-  line-height: 10vw;
+  line-height: 1;
 }
 
 .hero h1 span {
-  margin-top: -1vw;
+  margin-top: 0;
 }
 
   .about-grid,
@@ -1073,12 +1073,12 @@ h2 em {
   }
 
   .hero h1 {
-    font-size: 65px;
-    letter-spacing: -3px;
+    font-size: clamp(38px, 8vw, 72px);
+    letter-spacing: -0.055em;
   }
 
   .hero h1 span {
-  margin-top: 1vw;
+  margin-top: 0;
 }
    
   .hero-bottom{
@@ -1171,5 +1171,64 @@ h2 em {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+}
+
+/* FAQ content uses the site's existing dark palette. */
+.faq-list {
+  display: grid;
+  gap: 0;
+  max-width: 920px;
+  margin: 42px auto 0;
+  border-top: 1px solid #37382f;
+}
+
+.faq-list details {
+  padding: 22px 4px;
+  border-bottom: 1px solid #37382f;
+}
+
+.faq-list summary {
+  position: relative;
+  padding-right: 38px;
+  color: #eee9dc;
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list summary::after {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  color: #c5a66a;
+  content: "+";
+  font-size: 22px;
+  line-height: 1;
+}
+
+.faq-list details[open] summary::after {
+  content: "−";
+}
+
+.faq-list details p {
+  max-width: 780px;
+  margin: 14px 35px 0 0;
+  color: #b8b6aa;
+  line-height: 1.75;
+}
+
+@media (max-width: 600px) {
+  .faq-list {
+    margin-top: 28px;
+  }
+
+  .faq-list details {
+    padding: 18px 2px;
   }
 }

@@ -5,11 +5,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs/promises");
 
+const projectRoot = path.resolve(__dirname, "..");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
+require("dotenv").config({ path: path.join(projectRoot, ".env") });
 
 const app = express();
-const projectRoot = path.resolve(__dirname, "..");
 const allowedOrigins = (process.env.CORS_ORIGINS || "")
   .split(",")
   .map((origin) => origin.trim())
@@ -118,16 +120,57 @@ const Review = mongoose.model("Review", reviewSchema);
 
 // WEBSITE ROUTES
 
+function getPublicSiteUrl(req) {
+  const configuredUrl = process.env.SITE_URL?.trim();
+  if (configuredUrl) {
+    try {
+      const parsedUrl = new URL(configuredUrl);
+      if (parsedUrl.protocol === "https:" || parsedUrl.protocol === "http:") {
+        return parsedUrl.origin;
+      }
+    } catch (error) {
+      console.error("SITE_URL must be a valid absolute URL.");
+    }
+  }
+
+  try {
+    return new URL(`${req.protocol}://${req.get("host")}`).origin;
+  } catch (error) {
+    return "http://localhost";
+  }
+}
+
+async function sendSeoPage(req, res, fileName) {
+  const html = await fs.readFile(path.join(projectRoot, fileName), "utf8");
+  res.type("html").send(html.replaceAll("__SITE_URL__", getPublicSiteUrl(req)));
+}
+
 app.get("/", (req, res) => {
-  res.sendFile(path.join(projectRoot, "index.html"));
+  return sendSeoPage(req, res, "index.html");
 });
 
 app.get("/index.html", (req, res) => {
-  res.sendFile(path.join(projectRoot, "index.html"));
+  return res.redirect(301, "/");
 });
 
 app.get("/reviews.html", (req, res) => {
-  res.sendFile(path.join(projectRoot, "reviews.html"));
+  return sendSeoPage(req, res, "reviews.html");
+});
+
+app.get("/robots.txt", (req, res) => {
+  const siteUrl = getPublicSiteUrl(req);
+  res.type("text/plain").send(`User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: ${siteUrl}/sitemap.xml\n`);
+});
+
+app.get("/sitemap.xml", (req, res) => {
+  const siteUrl = getPublicSiteUrl(req);
+  const urls = ["/", "/reviews.html"]
+    .map((route) => `  <url><loc>${siteUrl}${route}</loc></url>`)
+    .join("\n");
+
+  res.type("application/xml").send(
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`
+  );
 });
 
 app.get("/style.css", (req, res) => {
@@ -261,6 +304,6 @@ app.get("/api/reviews", requireDatabase, async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, "127.0.0.1", () => {
-  console.log(`Server running on http://127.0.0.1:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

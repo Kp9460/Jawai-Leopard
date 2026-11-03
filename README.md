@@ -13,6 +13,10 @@
 3. Start the website and review API with `npm start`.
 4. Open `http://localhost:5000`.
 
+## SEO and production domain
+
+The server serves `/robots.txt` and `/sitemap.xml`, and fills canonical and social URLs from the request host. Before deploying, set `SITE_URL` to the website's public HTTPS origin (for example, `https://www.example.com`) so search engines receive the correct canonical URLs, sitemap links and structured data. Add the sitemap URL to Google Search Console after deployment. Search ranking and indexing are decided by Google and are not guaranteed by metadata alone.
+
 The review API is available at `/api/reviews`. Check `/api/health` to see whether MongoDB is connected.
 
 Shared site styling lives in `style.css`; review cards, the reviews page and its form live in `reviews.css`. Both stylesheets are loaded by the homepage and reviews page.
